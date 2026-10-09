@@ -14,12 +14,14 @@ import Profile from "./pages/Profile";
 import Help from "./pages/Help";
 import Login from "./pages/Login";
 import OTP from "./pages/OTP";
+import RiceDiseaseDetection from "./pages/RiceDiseaseDetection";
 
 function AppRoutes(){
   const location=useLocation();
   return <AnimatePresence mode="wait"><Routes location={location} key={location.pathname}>
     <Route path="/" element={<PageTransition><Home/></PageTransition>}/>
     <Route path="/prediction" element={<ProtectedRoute><PageTransition><Prediction/></PageTransition></ProtectedRoute>}/>
+    <Route path="/rice-disease-detection" element={<PageTransition><RiceDiseaseDetection/></PageTransition>}/>
     <Route path="/profile" element={<ProtectedRoute><PageTransition><Profile/></PageTransition></ProtectedRoute>}/>
     <Route path="/help" element={<PageTransition><Help/></PageTransition>}/>
     <Route path="/login" element={<PageTransition><Login/></PageTransition>}/>

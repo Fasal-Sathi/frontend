@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Home, BarChart3, CircleHelp, UserRound, LockKeyhole, LogOut, Menu, X } from "lucide-react";
+import { Home, BarChart3, CircleHelp, UserRound, LockKeyhole, LogOut, Menu, X, ScanLine } from "lucide-react";
 import BrandMark from "./BrandMark";
 import LanguageSelector from "./LanguageSelector";
 import { useAuth } from "../context/AuthContext";
@@ -13,6 +13,7 @@ export default function Navbar({ onLogin }) {
   const links = [
     ["/", t("nav.home"), Home, false],
     ["/prediction", t("nav.prediction"), BarChart3, true],
+    ["/rice-disease-detection", t("nav.riceDisease"), ScanLine, false],
     ["/help", t("nav.help"), CircleHelp, false],
     ["/profile", t("nav.profile"), UserRound, true]
   ];
