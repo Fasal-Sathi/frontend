@@ -10,11 +10,13 @@ export default function OTP() {
   const { requestOtp, verifyOtp } = useAuth();
   const nav = useNavigate();
   const loc = useLocation();
-  const pending = JSON.parse(localStorage.getItem("fasalsathi-pending") || "{}");
+  let pending = {};
+  try { pending = JSON.parse(localStorage.getItem("fasalsathi-pending") || "{}"); } catch { /* Ignore malformed demo state. */ }
   const phone = loc.state?.phone || pending.phone || "";
   const mode = loc.state?.mode || pending.mode || "login";
+  const name = loc.state?.name || pending.name || "";
   const next = loc.state?.next || "/prediction";
-  const [otp, setOtp] = useState("");
+  const [otp, setOtp] = useState(loc.state?.demoOtp || pending.demoOtp || "");
   const [seconds, setSeconds] = useState(OTP_LIFETIME_SECONDS);
   const [resendSeconds, setResendSeconds] = useState(RESEND_DELAY_SECONDS);
   const [loading, setLoading] = useState(false);
@@ -37,7 +39,7 @@ export default function OTP() {
 
     setLoading(true);
     try {
-      await verifyOtp(phone, otp, mode);
+      await verifyOtp(phone, otp, mode, name);
       localStorage.removeItem("fasalsathi-pending");
       toast.success("Welcome back! You can now access all features");
       nav(next, { replace: true });
@@ -53,10 +55,12 @@ export default function OTP() {
 
     setResending(true);
     try {
-      await requestOtp(phone, mode);
+      const result = await requestOtp(phone, mode, name);
+      const nextDemoOtp = result.demo_otp || "";
       setSeconds(OTP_LIFETIME_SECONDS);
       setResendSeconds(RESEND_DELAY_SECONDS);
-      setOtp("");
+      setOtp(nextDemoOtp);
+      localStorage.setItem("fasalsathi-pending", JSON.stringify({ ...pending, phone, mode, name, demoOtp: nextDemoOtp }));
       toast.success("A new OTP has been sent");
     } catch (error) {
       toast.error(error.response?.data?.detail || "Unable to resend OTP");

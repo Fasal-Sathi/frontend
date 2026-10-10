@@ -1,21 +1,22 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Home, BarChart3, CircleHelp, UserRound, LockKeyhole, LogOut, Menu, X, ScanLine } from "lucide-react";
+import { Home, BarChart3, CircleHelp, UserRound, LockKeyhole, LogOut, Menu, X, ScanLine, HandCoins } from "lucide-react";
 import BrandMark from "./BrandMark";
 import LanguageSelector from "./LanguageSelector";
 import { useAuth } from "../context/AuthContext";
 
 export default function Navbar({ onLogin }) {
-  const { loggedIn, logout } = useAuth();
+  const { loggedIn, user, logout } = useAuth();
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const links = [
     ["/", t("nav.home"), Home, false],
     ["/prediction", t("nav.prediction"), BarChart3, true],
     ["/rice-disease-detection", t("nav.riceDisease"), ScanLine, false],
+    ["/available-schemes", t("nav.schemes"), HandCoins, false],
     ["/help", t("nav.help"), CircleHelp, false],
-    ["/profile", t("nav.profile"), UserRound, true]
+    ["/profile", loggedIn ? (user?.name || t("nav.profile")) : t("nav.profile"), UserRound, true]
   ];
 
   const handleProtected = (e, protectedRoute) => {
@@ -40,7 +41,7 @@ export default function Navbar({ onLogin }) {
               key={to}
               to={to}
               onClick={(e) => handleProtected(e, protectedRoute)}
-              className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
+              className={({ isActive }) => `nav-item ${to === "/rice-disease-detection" || to === "/available-schemes" ? "nav-item--multiline" : ""} ${isActive ? "active" : ""}`}
             >
               <Icon size={20} strokeWidth={2} />
               <span>{label}</span>

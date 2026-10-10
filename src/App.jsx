@@ -15,6 +15,7 @@ import Help from "./pages/Help";
 import Login from "./pages/Login";
 import OTP from "./pages/OTP";
 import RiceDiseaseDetection from "./pages/RiceDiseaseDetection";
+import AvailableSchemes from "./pages/AvailableSchemes";
 
 function AppRoutes(){
   const location=useLocation();
@@ -22,6 +23,7 @@ function AppRoutes(){
     <Route path="/" element={<PageTransition><Home/></PageTransition>}/>
     <Route path="/prediction" element={<ProtectedRoute><PageTransition><Prediction/></PageTransition></ProtectedRoute>}/>
     <Route path="/rice-disease-detection" element={<PageTransition><RiceDiseaseDetection/></PageTransition>}/>
+    <Route path="/available-schemes" element={<PageTransition><AvailableSchemes/></PageTransition>}/>
     <Route path="/profile" element={<ProtectedRoute><PageTransition><Profile/></PageTransition></ProtectedRoute>}/>
     <Route path="/help" element={<PageTransition><Help/></PageTransition>}/>
     <Route path="/login" element={<PageTransition><Login/></PageTransition>}/>
